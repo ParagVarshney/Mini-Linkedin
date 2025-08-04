@@ -2,7 +2,7 @@ import React, { useState } from 'react';
 import { useNavigate, Link } from 'react-router-dom';
 import api from '../api';
 
-function Signup() {
+function Signup({ onAuth }) {
   const [name, setName] = useState('');
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
@@ -13,7 +13,9 @@ function Signup() {
     try {
       const res = await api.post('/auth/register', { name, email, password });
       localStorage.setItem('token', res.data.token);
-      navigate('/feed');
+      onAuth(); // ✅ Notify App that user is authenticated
+      alert('Signup successful');
+      navigate('/login');
     } catch (err) {
       alert('Signup failed');
     }

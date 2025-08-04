@@ -2,7 +2,7 @@ import React, { useState } from 'react';
 import { useNavigate, Link } from 'react-router-dom';
 import api from '../api';
 
-function Login() {
+function Login({ onAuth }) {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const navigate = useNavigate();
@@ -12,8 +12,9 @@ function Login() {
     try {
       const res = await api.post('/auth/login', { email, password });
       localStorage.setItem('token', res.data.token);
+      onAuth(); // 🔥 Update auth state in App.js
+      alert('Login successful');
       navigate('/feed');
-      alert('login successful');
     } catch (err) {
       alert('Login failed');
     }

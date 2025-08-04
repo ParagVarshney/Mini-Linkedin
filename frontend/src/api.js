@@ -1,7 +1,7 @@
 import axios from 'axios';
 
 const api = axios.create({
-  baseURL: 'https://mini-linkedin-ezyb.onrender.com',
+  baseURL: 'https://mini-linkedin-ezyb.onrender.com/api',
 });
 
 // Add token to headers
@@ -14,5 +14,6 @@ api.interceptors.request.use((config) => {
 });
 
 export default api;
+
 
 

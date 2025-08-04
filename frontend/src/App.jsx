@@ -7,18 +7,11 @@ import Feed from './pages/Feed';
 import Profile from './pages/Profile';
 
 function App() {
-  const [isAuthenticated, setIsAuthenticated] = useState(!!localStorage.getItem('token'));
+  const [isAuthenticated, setIsAuthenticated] = useState(false);
 
   useEffect(() => {
-    const handleStorageChange = () => {
-      setIsAuthenticated(!!localStorage.getItem('token'));
-    };
-
-    window.addEventListener('storage', handleStorageChange);
-
-    return () => {
-      window.removeEventListener('storage', handleStorageChange);
-    };
+    const token = localStorage.getItem('token');
+    if (token) setIsAuthenticated(true);
   }, []);
 
   return (
@@ -26,8 +19,8 @@ function App() {
       <Navbar />
       <Routes>
         <Route path="/" element={<Navigate to={isAuthenticated ? "/feed" : "/login"} />} />
-        <Route path="/login" element={<Login />} />
-        <Route path="/signup" element={<Signup />} />
+        <Route path="/login" element={<Login onAuth={() => setIsAuthenticated(true)} />} />
+        <Route path="/signup" element={<Signup onAuth={() => setIsAuthenticated(true)} />} />
         <Route path="/feed" element={isAuthenticated ? <Feed /> : <Navigate to="/login" />} />
         <Route path="/profile" element={isAuthenticated ? <Profile /> : <Navigate to="/login" />} />
       </Routes>
